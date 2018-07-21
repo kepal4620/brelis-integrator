@@ -69,9 +69,9 @@ public class AdapterServiceTest {
 				AdapterService.class);
 
 		AdapterRequest req = AdapterRequest.getEmptyRequest();
-		req.setOrderNumber("12501861");
+		req.setOrderNumber("15504759");
 		req.setOrderGroup("1");
-		req.setPurchaseOrderNumber("3247");
+		req.setPurchaseOrderNumber("12246");
 		req.setMethodName(MethodName.GetOrderByPoNum);
 		req.setManufacturer(Manufacturer.Essilor);
 		req.setDirection(Direction.SEND);
@@ -153,7 +153,7 @@ public class AdapterServiceTest {
 		req.setActionType(ActionType.Send);
 		req.setDirection(Direction.SEND);
 		req.setDataSourceName("kto_1");
-		req.setBranchCode("ZL");
+		req.setBranchCode("SV");
 
 		Result result = service.uploadOrderByAction(req);
 		

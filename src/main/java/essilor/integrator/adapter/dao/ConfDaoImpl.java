@@ -32,7 +32,7 @@ public class ConfDaoImpl implements ConfDao {
 	private String softwareOriginatorName;
 	
 	private String softwareSenderName;
-	
+
 	private String softwareOriginatorVersion;
 	
 	private String softwareSenderVersion;

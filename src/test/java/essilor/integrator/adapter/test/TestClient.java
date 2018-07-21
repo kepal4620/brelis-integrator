@@ -47,8 +47,8 @@ public class TestClient {
 	@Test
 	public void testUploadCustomFile() throws Exception {
 		Socket s = new Socket("localhost", 6900);
-		InputStream is = new BufferedInputStream(s.getInputStream(), 100);
-		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 100);
+		InputStream is = new BufferedInputStream(s.getInputStream(), 131);
+		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 131);
 		StringBuilder sb = new StringBuilder();
 		sb.append("010")
 		.append("000000012501861")
@@ -58,8 +58,10 @@ public class TestClient {
 		.append("kto_1                         ")
 		.append("0000008137")
 		.append("           Send")
-		.append("0000000");
-		os.write(sb.toString().getBytes("UTF-8"), 0, 100);
+		.append("ZL")
+		.append("000000000000000000000000000000000000");
+
+		os.write(sb.toString().getBytes("UTF-8"), 0, 131);
 		
 		os.flush();
 		byte[] frame = new byte[1024];
