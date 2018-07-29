@@ -4,9 +4,9 @@ import essilor.integrator.adapter.AdapterRequest;
 import essilor.integrator.adapter.Result;
 import essilor.integrator.adapter.domain.uploadfile.UploadOrderByAction;
 import essilor.integrator.adapter.domain.uploadfile.UploadOrderByActionResponse;
+import org.apache.log4j.Logger;
 
 public class UploadOrderByActionResultBuilder extends ResultBuilder {
-
 	private UploadOrderByAction wsRequest;
 	private UploadOrderByActionResponse wsResponse;
 

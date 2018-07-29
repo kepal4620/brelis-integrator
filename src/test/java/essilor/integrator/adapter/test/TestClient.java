@@ -99,8 +99,8 @@ public class TestClient {
 	@Test
 	public void testGetOrderByPoNum_2() throws Exception {
 		Socket s = new Socket("localhost", 6900);
-		InputStream is = new BufferedInputStream(s.getInputStream(), 100);
-		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 100);
+		InputStream is = new BufferedInputStream(s.getInputStream(), 131);
+		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 131);
 		StringBuilder sb = new StringBuilder();
 		sb.append("022")
 		.append("000000012501861")
@@ -110,8 +110,9 @@ public class TestClient {
 		.append("kto_1                         ")
 		.append("0000009137")
 		.append("           Send")
-		.append("0000000");
-		os.write(sb.toString().getBytes("UTF-8"), 0, 100);
+        .append("ZL")
+		.append("000000000000000000000000000000000000");
+		os.write(sb.toString().getBytes("UTF-8"), 0, 131);
 		
 		os.flush();
 		byte[] frame = new byte[1024];
@@ -124,19 +125,20 @@ public class TestClient {
 	@Test
 	public void testUploadOrderByAction() throws Exception {
 		Socket s = new Socket("localhost", 6900);
-		InputStream is = new BufferedInputStream(s.getInputStream(), 100);
-		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 100);
+		InputStream is = new BufferedInputStream(s.getInputStream(), 131);
+		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 131);
 		StringBuilder sb = new StringBuilder();
 		sb.append("011")
-		.append("000000012501861")
+		.append("000000015505168")
 		.append("001")
-		.append("000000000003247")
+		.append("000000000012250")
 		.append(" E")
 		.append("ZL                            ")
 		.append("0000008317")
 		.append("           Send")
-		.append("0000000");
-		os.write(sb.toString().getBytes("UTF-8"), 0, 100);
+        .append("ZL")
+        .append("000000000000000000000000000000000000");
+		os.write(sb.toString().getBytes("UTF-8"), 0, 131);
 		
 		os.flush();
 		byte[] frame = new byte[1024];

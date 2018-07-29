@@ -256,7 +256,7 @@ public class AdapterRequest {
 		sb.append("AdapterRequest: ").append(this.methodName).append(", ")
 		.append(this.orderNumber).append(", ").append(this.orderGroup).
 		append(", ").append(this.purchaseOrderNumber).append(", ").append(this.manufacturer)
-		.append(", ").append(this.dataSourceName).append(", ").append(this.branchCode);
+		.append(", ").append(this.dataSourceName).append(", ").append(sloId).append(", ").append(this.branchCode);
 		return sb.toString();
 	}
 }

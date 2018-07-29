@@ -3,14 +3,19 @@ package essilor.integrator.adapter.service;
 import java.io.StringReader;
 import java.util.List;
 
-import org.jdom2.Document;
+import org.apache.log4j.Logger;
 import org.jdom2.Element;
+import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 
 import essilor.integrator.adapter.Result;
+import org.jdom2.xpath.XPathExpression;
+import org.jdom2.xpath.XPathFactory;
 
-public class UploadOrderByActionReplyBuilder extends AdapterReplyBuilder{
-	
+public class UploadOrderByActionReplyBuilder extends AdapterReplyBuilder {
+
+	private static final Logger logger = Logger.getLogger(AdapterServiceImpl.class);
+
 	public String build() {
 		try {
 			StringBuilder builder = new StringBuilder();
@@ -18,7 +23,8 @@ public class UploadOrderByActionReplyBuilder extends AdapterReplyBuilder{
 				builder.append(result.getReturnCode())
 						.append(ServiceCallTimestampHolder.getAsDateTime())
 						.append(result.getOrderId());
-				for (int i = 0; i < 15 - result.getOrderId().length(); i++) {
+				int len = (result.getOrderId() == null) ? 11 : result.getOrderId().length();
+				for (int i = 0; i < 15 - len; i++) {
 					builder.append(" ");
 				}
 				builder.append(result.getUrl());
@@ -39,18 +45,20 @@ public class UploadOrderByActionReplyBuilder extends AdapterReplyBuilder{
 		}
 	}
 	
-	private String buildErrorMessages() throws Exception {
+	private String buildErrorMessages() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("ERROR MESSAGE").append("\r\n");
-		
-		SAXBuilder sbl=new SAXBuilder();
-		Document doc=sbl.build(new StringReader(result.getErrorText()));
-		String text = doc.getRootElement().getChild("ERROR").getText();
-		text = "<E>" + text + "</E>";
-		Document doc1 = sbl.build(new StringReader(text));
-		List<Element> l1 = doc1.getRootElement().getChildren("ERROR");
-		for (Element e1 : l1) {
-				sb.append(e1.getText()).append("\r\n");
+		try {
+			XPathExpression<Element> expr = XPathFactory.instance().compile("//ERROR", Filters.element());
+			List<Element> errors = expr.evaluate(new SAXBuilder().build(new StringReader(result.getErrorText())));
+			for (Element error : errors) {
+				if (!error.getTextTrim().isEmpty()) {
+					sb.append(error.getTextTrim()).append("\r\n");
+				}
+			}
+		} catch (Exception e) {
+			logger.warn("failed to parse error text", e);
+			sb.append(result.getErrorText());
 		}
 		return sb.toString();
 	}

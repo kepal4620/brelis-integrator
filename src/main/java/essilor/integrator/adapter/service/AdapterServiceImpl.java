@@ -274,6 +274,7 @@ public class AdapterServiceImpl implements AdapterService {
 
 			return result;
 		} catch (Exception e) {
+			logger.error(e);
 			throw new RuntimeException(e);
 		}
 	}
