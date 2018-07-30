@@ -216,7 +216,8 @@ public class AdapterServiceImpl implements AdapterService {
 		fileName.append(wsRequest.getPoNum()).append("_")
 				.append(df.format(new Date(ServiceCallTimestampHolder.getAsLong())))
 				.append(".pdf");
-		if (wsResponse.getGetOrderAsPDFByPoNumResult().getError() == null) {
+		if (wsResponse.getGetOrderAsPDFByPoNumResult().getError() == null ||
+				wsResponse.getGetOrderAsPDFByPoNumResult().getError().isEmpty()) {
 			pathToFile = orderService.saveOrderAsPDF(request, fileName.toString(), wsResponse.getGetOrderAsPDFByPoNumResult()
 					.getPdf());
 		}

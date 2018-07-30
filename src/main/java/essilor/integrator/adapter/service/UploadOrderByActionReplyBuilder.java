@@ -22,8 +22,8 @@ public class UploadOrderByActionReplyBuilder extends AdapterReplyBuilder {
 			if (result.getProcessed() == Result.PROCESSED) {
 				builder.append(result.getReturnCode())
 						.append(ServiceCallTimestampHolder.getAsDateTime())
-						.append(result.getOrderId());
-				int len = (result.getOrderId() == null) ? 11 : result.getOrderId().length();
+						.append(result.getOrderId() == null ? "" : result.getOrderId());
+				int len = (result.getOrderId() == null) ? 15 : result.getOrderId().length();
 				for (int i = 0; i < 15 - len; i++) {
 					builder.append(" ");
 				}
@@ -39,6 +39,7 @@ public class UploadOrderByActionReplyBuilder extends AdapterReplyBuilder {
 						.append("               ")
 						.append(result.getErrorText());
 			}
+			logger.info("reply: " + builder.toString());
 			return builder.toString();
 		} catch (Exception e) {
 			throw new RuntimeException(e);

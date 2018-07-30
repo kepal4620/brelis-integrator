@@ -12,12 +12,7 @@ public class GetOrderAsPDFByPoNumReplyBuilder extends AdapterReplyBuilder {
 		if (result.getProcessed() == Result.PROCESSED) {
 			reply.append("OK")
 					.append(ServiceCallTimestampHolder.getAsDateTime())
-					.append(result.getOrderId());
-			         int len = (result.getOrderId() == null) ? 11 : result.getOrderId().length();
-			         for (int i = 0; i < 15 - len; i++) {
-				      reply.append(" ");
-			         }
-					reply.append(FilenameUtils.getName(result.getUrl()));
+					.append(FilenameUtils.getName(result.getUrl()));
 		} else {
 			reply.append("ER")
 					.append(ServiceCallTimestampHolder.getAsDateTime())

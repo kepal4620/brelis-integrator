@@ -73,20 +73,20 @@ public class TestClient {
 	@Test
 	public void testGetOrderAsPDF() throws Exception {
 		Socket s = new Socket("localhost", 6900);
-		InputStream is = new BufferedInputStream(s.getInputStream(), 130);
-		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 130);
+		InputStream is = new BufferedInputStream(s.getInputStream(), 131);
+		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 131);
 		StringBuilder sb = new StringBuilder();
 		sb.append("021")
-		.append("000000015503462")
+		.append("000000015505168")
 		.append("001")
-		.append("000000000003247")
+		.append("000000000012250")
 		.append(" E")
-		.append("kto_1                         ")
-		.append("0000009137")
+		.append("ZL                            ")
+		.append("0000008317")
 		.append("           Send")
-		.append("0000000")
-		.append("000000000000000000000000000000");
-		os.write(sb.toString().getBytes("UTF-8"), 0, 130);
+		.append("ZL")
+		.append("000000000000000000000000000000000000");
+		os.write(sb.toString().getBytes("UTF-8"), 0, 131);
 		
 		os.flush();
 		byte[] frame = new byte[1024];
