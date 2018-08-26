@@ -124,7 +124,7 @@ public class Adapter implements ApplicationContextAware {
 	}
 
 	void handleRequest(Socket conn) throws IOException {
-		int bufFrame = 131;
+		int bufFrame = 167;
 		DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(
 				conn.getOutputStream(), bufFrame));
 		DataInputStream dis = new DataInputStream(new BufferedInputStream(

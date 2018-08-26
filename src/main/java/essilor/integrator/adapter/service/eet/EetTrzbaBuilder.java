@@ -62,6 +62,9 @@ public class EetTrzbaBuilder {
         private BigDecimal zaklDan1;
         private BigDecimal dan2;
         private BigDecimal zaklDan2;
+        private BigDecimal dan3;
+        private BigDecimal zaklDan3;
+        private BigDecimal zaklNepodlDph;
         private int rezim;
         private String kod;
 
@@ -149,6 +152,21 @@ public class EetTrzbaBuilder {
             return this;
         }
 
+        public Builder withDan3(BigDecimal dan3) {
+            this.dan3 = dan3;
+            return this;
+        }
+
+        public Builder withZaklDan3(BigDecimal zaklDan3) {
+            this.zaklDan3 = zaklDan3;
+            return this;
+        }
+
+        public Builder withZaklNepodlDph(BigDecimal zaklNepodlDph) {
+            this.zaklNepodlDph = zaklNepodlDph;
+            return this;
+        }
+
         public Builder withRezim(int rezim) {
             this.rezim = rezim;
             return this;
@@ -177,6 +195,9 @@ public class EetTrzbaBuilder {
             trzbaData.setZaklDan1(this.zaklDan1);
             trzbaData.setDan2(this.dan2);
             trzbaData.setZaklDan2(this.zaklDan2);
+            trzbaData.setDan3(this.dan3);
+            trzbaData.setZaklDan3(this.zaklDan3);
+            trzbaData.setZaklNepodlDph(this.zaklNepodlDph);
             trzbaData.setRezim(this.rezim);
             if (dicPover != null && dicPover.trim().length() > 1) {
                 trzbaData.setDicPoverujiciho(dicPover.trim());
@@ -211,13 +232,13 @@ public class EetTrzbaBuilder {
 
         private String getTextToSign() {
             String s =  new StringBuilder()
-                .append(this.dicPopl).append("|")
-                .append(this.idProvoz).append("|")
-                .append(this.idPokl).append("|")
-                .append(this.poradCis).append("|")
-                .append(getDatTrzbyAsString()).append("|")
-                .append(getCelkTrzabAsString())
-                .toString();
+                    .append(this.dicPopl).append("|")
+                    .append(this.idProvoz).append("|")
+                    .append(this.idPokl).append("|")
+                    .append(this.poradCis).append("|")
+                    .append(getDatTrzbyAsString()).append("|")
+                    .append(getCelkTrzabAsString())
+                    .toString();
             logger.debug("text to sign: " + s);
             return s;
         }

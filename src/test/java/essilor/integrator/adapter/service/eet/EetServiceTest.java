@@ -31,7 +31,10 @@ public class EetServiceTest {
                 .append("002")
                 .append("01")
                 .append("012345678901234567890123456789")
-                .append("ZL");
+                .append("ZL")
+                .append("000006666.66")
+                .append("000007777.77")
+                .append("000008888.88");
 
         AdapterRequest req = AdapterRequest.getEmptyRequest();
         req.setEetData(EetDataBuilder.newInstance().withRequest(sb.toString()).build());
@@ -89,7 +92,11 @@ public class EetServiceTest {
                 .append("012345678901234567890123456789")
                 .append("  CZ01640836")
                 .append("  CZ99999999")
-                .append(" ");
+                .append(" ")
+                .append("     6666.66")
+                .append("     7777.77")
+                .append("     8888.88");
+
 
 
         AdapterRequest req = AdapterRequest.getEmptyRequest();

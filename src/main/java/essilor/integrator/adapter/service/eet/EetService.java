@@ -4,17 +4,14 @@ package essilor.integrator.adapter.service.eet;
 import cz.mfcr.fs.eet.schema.v3.Odpoved;
 import cz.mfcr.fs.eet.schema.v3.OdpovedChybaType;
 import cz.mfcr.fs.eet.schema.v3.Trzba;
-import essilor.integrator.adapter.Adapter;
 import essilor.integrator.adapter.AdapterRequest;
 import essilor.integrator.adapter.Result;
-import essilor.integrator.adapter.dao.ConfDao;
 import essilor.integrator.adapter.domain.eet.EetConfigInfo;
 import essilor.integrator.adapter.service.OrderService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Map;
 
@@ -75,6 +72,9 @@ public class EetService {
                 .withZaklDan1(request.getEetData().getZaklDan1())
                 .withZaklDan2(request.getEetData().getZaklDan2())
                 .withDan2(request.getEetData().getDan2())
+                .withZaklDan3(request.getEetData().getZaklDan3())
+                .withDan3(request.getEetData().getDan3())
+                .withZaklNepodlDph(request.getEetData().getZaklNepodlhDph())
                 .withRezim(REZIM)
                 .withKod(request.getEetData().getKod())
                 .build();

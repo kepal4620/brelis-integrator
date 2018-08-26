@@ -73,8 +73,8 @@ public class TestClient {
 	@Test
 	public void testGetOrderAsPDF() throws Exception {
 		Socket s = new Socket("localhost", 6900);
-		InputStream is = new BufferedInputStream(s.getInputStream(), 131);
-		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 131);
+		InputStream is = new BufferedInputStream(s.getInputStream(), 167);
+		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 167);
 		StringBuilder sb = new StringBuilder();
 		sb.append("021")
 		.append("000000015505168")
@@ -85,8 +85,9 @@ public class TestClient {
 		.append("0000008317")
 		.append("           Send")
 		.append("ZL")
-		.append("000000000000000000000000000000000000");
-		os.write(sb.toString().getBytes("UTF-8"), 0, 131);
+		.append("000000000000000000000000000000000000")
+		.append("                                    ");
+		os.write(sb.toString().getBytes("UTF-8"), 0, 167);
 		
 		os.flush();
 		byte[] frame = new byte[1024];
@@ -202,8 +203,8 @@ public class TestClient {
 	@Test
 	public void testEet() throws Exception {
 		Socket s = new Socket("localhost", 6900);
-		InputStream is = new BufferedInputStream(s.getInputStream(), 131);
-		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 131);
+		InputStream is = new BufferedInputStream(s.getInputStream(), 167);
+		OutputStream os = new BufferedOutputStream(s.getOutputStream(), 167);
 
 		StringBuilder sb = new StringBuilder()
 				.append("110")
@@ -219,10 +220,14 @@ public class TestClient {
 				.append("002")
 				.append("01")
 				.append("012345678901234567890123456789")
-				.append("ZL");
+				.append("ZL")
+				.append("000000000.00")
+				.append("000000000.00")
+				.append("000000000.00")
+				;
 
 
-		os.write(sb.toString().getBytes("UTF-8"), 0, 131);
+		os.write(sb.toString().getBytes("UTF-8"), 0, 167);
 		os.flush();
 		byte[] frame = new byte[1024];
 		is.read(frame, 0, 1024);

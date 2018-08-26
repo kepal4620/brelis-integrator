@@ -7,12 +7,14 @@ public class EetData {
 
     private String mode;
     private boolean first;
-
     private BigDecimal celkTrzba;
     private BigDecimal zaklDan1;
     private BigDecimal dan1;
     private BigDecimal zaklDan2;
     private BigDecimal dan2;
+    private BigDecimal zaklDan3;
+    private BigDecimal dan3;
+    private BigDecimal zaklNepodlhDph;
     private Date datTrzby;
     private String dataSourceName;
     private String poradoveCisloDokladu;
@@ -21,6 +23,30 @@ public class EetData {
     private String poradoveCislo;
     private String kod;
     private String password;
+
+    public BigDecimal getZaklDan3() {
+        return zaklDan3;
+    }
+
+    public void setZaklDan3(BigDecimal zaklDan3) {
+        this.zaklDan3 = zaklDan3;
+    }
+
+    public BigDecimal getDan3() {
+        return dan3;
+    }
+
+    public void setDan3(BigDecimal dan3) {
+        this.dan3 = dan3;
+    }
+
+    public BigDecimal getZaklNepodlhDph() {
+        return zaklNepodlhDph;
+    }
+
+    public void setZaklNepodlhDph(BigDecimal zaklNepodlhDph) {
+        this.zaklNepodlhDph = zaklNepodlhDph;
+    }
 
     public boolean isFirst() {
         return first;
