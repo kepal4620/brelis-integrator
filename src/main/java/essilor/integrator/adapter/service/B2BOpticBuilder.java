@@ -174,7 +174,7 @@ public class B2BOpticBuilder {
             StringBuilder sb = new StringBuilder();
             sb.append(order.getZakazka()).append("-").append(order.getSkupina());
             item.setReferenceNo(sb.toString());
-            item.setReferenceText(customer.getSurname());
+            item.setReferenceText(buildReferenceText(customer));
             item.setManufacturer("ESSILOR");
 
             Pair pair = new Pair();
@@ -184,11 +184,11 @@ public class B2BOpticBuilder {
             id.setMemberShipID(1L);
             id.setValue(String.valueOf(customer.getCustomerNumber()));
             patient.setId(id);
-            patient.setName(customer.getSurname());
+            patient.setName(zakazka + "-" + skupina);
             ContactInfo contactInfo = new ContactInfo();
             contactInfo.setTitle(customer.getTitle());
-            contactInfo.setFirstName(customer.getFirstName());
-            contactInfo.setLastName(customer.getSurname());
+            contactInfo.setFirstName(customer.getFirstName().substring(0,1));
+            contactInfo.setLastName(customer.getSurname().substring(0,1));
             patient.setContact(contactInfo);
             patient.setMailAllowed(false);
 
@@ -362,6 +362,17 @@ public class B2BOpticBuilder {
             b2b.setHeader(buildHeader(order));
             b2b.setItems(buildItems(order));
             return b2b;
+        }
+
+        private String buildReferenceText(Customer customer) {
+            if (customer.getFirstName() == null) {
+                throw new IllegalStateException("customer first name is null");
+            }
+            if (customer.getSurname() == null) {
+                throw new IllegalStateException("customer surname is null");
+            }
+            return customer.getFirstName().substring(0,1).concat(
+                    customer.getSurname().substring(0,1));
         }
     }
 }

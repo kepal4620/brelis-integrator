@@ -144,9 +144,9 @@ public class AdapterServiceTest {
 				AdapterService.class);
 		
 		AdapterRequest req = AdapterRequest.getEmptyRequest();
-		req.setOrderNumber("12501861");
+		req.setOrderNumber("15505168");
 		req.setOrderGroup("1");
-		req.setPurchaseOrderNumber("3247");
+		req.setPurchaseOrderNumber("12250");
 		req.setMethodName(MethodName.UploadOrderByAction);
 		req.setManufacturer(Manufacturer.Essilor);
 		req.setSloId("8317");
