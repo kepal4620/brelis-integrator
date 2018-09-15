@@ -170,11 +170,10 @@ public class B2BOpticBuilder {
                 throw new RuntimeException("RightItem and LeftItem are null, cannot determine customer");
             }
 
-
             StringBuilder sb = new StringBuilder();
             sb.append(order.getZakazka()).append("-").append(order.getSkupina());
             item.setReferenceNo(sb.toString());
-            item.setReferenceText(sb.toString());
+            item.setReferenceText(buildReferenceText(customer));
             item.setManufacturer("ESSILOR");
 
             Pair pair = new Pair();
@@ -186,9 +185,9 @@ public class B2BOpticBuilder {
             patient.setId(id);
             patient.setName(zakazka + "-" + skupina);
             ContactInfo contactInfo = new ContactInfo();
-            contactInfo.setTitle(customer.getTitle());
-            contactInfo.setFirstName(customer.getFirstName().substring(0,1));
-            contactInfo.setLastName(customer.getSurname().substring(0,1));
+            contactInfo.setTitle("");
+            contactInfo.setFirstName("");
+            contactInfo.setLastName(zakazka + "-" + skupina);
             patient.setContact(contactInfo);
             patient.setMailAllowed(false);
 
@@ -362,6 +361,17 @@ public class B2BOpticBuilder {
             b2b.setHeader(buildHeader(order));
             b2b.setItems(buildItems(order));
             return b2b;
+        }
+
+        private String buildReferenceText(Customer customer) {
+            StringBuilder sb = new StringBuilder();
+            if (!customer.getFirstName().isEmpty()) {
+                sb.append(customer.getFirstName().substring(0,1));
+            }
+            if (!customer.getSurname().isEmpty()) {
+                sb.append(customer.getSurname().substring(0,1));
+            }
+            return sb.toString();
         }
     }
 }
