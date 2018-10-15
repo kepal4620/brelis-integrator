@@ -16,6 +16,7 @@
 	<tx:annotation-driven order="0" />
 
 	<bean class="essilor.integrator.adapter.EetConfiguration"/>
+	<bean class="essilor.integrator.adapter.AdapterConfiguration"/>
 
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -136,10 +137,6 @@
 	<bean id="orderBuilder" class="essilor.integrator.adapter.service.OrderBuilder" />
 
 	<bean id="adapterService" class="essilor.integrator.adapter.service.AdapterServiceImpl">
-		<property name="username" value="${adapter.username}" />
-		<property name="password" value="${adapter.password}" />
-		<property name="refid" value="${adapter.refid}" />
-		<property name="locale" value="${adapter.locale}" />
 		<property name="temp" value="${adapter.temp}" />
 	</bean>
 

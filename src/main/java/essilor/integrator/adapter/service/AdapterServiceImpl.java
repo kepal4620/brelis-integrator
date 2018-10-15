@@ -2,6 +2,7 @@ package essilor.integrator.adapter.service;
 
 import essilor.integrator.adapter.AdapterRequest;
 import essilor.integrator.adapter.Result;
+import essilor.integrator.adapter.domain.AdapterConfigInfo;
 import essilor.integrator.adapter.domain.b2boptic.B2BOptic;
 import essilor.integrator.adapter.domain.getorder.GetOrderAsPDFByPoNum;
 import essilor.integrator.adapter.domain.getorder.GetOrderAsPDFByPoNumResponse;
@@ -17,9 +18,9 @@ import essilor.integrator.adapter.domain.uploadfile.UploadOrderByAction;
 import essilor.integrator.adapter.domain.uploadfile.UploadOrderByActionResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.xml.transform.StringSource;
 
+import javax.annotation.Resource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -28,6 +29,7 @@ import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 public class AdapterServiceImpl implements AdapterService {
 
@@ -48,55 +50,49 @@ public class AdapterServiceImpl implements AdapterService {
 	@Autowired
 	private JAXBContext jaxbContext;
 
-    @Value("${adapter.originator}")
-	private String originator;
+	private Map<String, AdapterConfigInfo> adapterConfigMap;
 
-    @Value("${adapter.shipto}")
-	private String shipto;
-	
-	private String username;
-	private String password;
-	private String locale;
+	@Resource
+	private void setAdapterConfigMap(Map<String, AdapterConfigInfo> adapterConfigMap) {
+				this.adapterConfigMap = adapterConfigMap;
+	}
+
 	private String temp;
-	private String refid;
-
-	public void setRefid(String refid) {
-		this.refid = refid;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
 
 	public void setTemp(String temp) {
 		this.temp = temp;
 	}
 
+	private AdapterConfigInfo getAdapterConfigInfo(AdapterRequest request) {
+	   AdapterConfigInfo adapterConfigInfo = adapterConfigMap.get(request.getBranchCode());
+	   if (adapterConfigInfo == null) {
+	       throw new IllegalStateException("adapterConfigInfo is null");
+       } else {
+	       return adapterConfigInfo;
+       }
+    }
+
 	@Override
 	public Result uploadCustomFile(AdapterRequest request) {
 		try {
+
+		    AdapterConfigInfo adapterConfigInfo = getAdapterConfigInfo(request);
+
             B2BOptic b2bOptic = b2bBuilder.new Builder()
                     .withZakazka(request.getOrderNumber())
                     .withSkupina(request.getOrderGroup())
                     .withObjednavka(request.getPurchaseOrderNumber())
                     .withBranchCode(request.getBranchCode())
-                    .withOriginator(originator)
-			        .withShipto(shipto)
+                    .withOriginator(adapterConfigInfo.getOriginator())
+			        .withShipto(adapterConfigInfo.getShipto())
                     .build();
 
+
 			UploadCustomFile wsRequest = new UploadCustomFile();
-			wsRequest.setUsername(username);
-			wsRequest.setPassword(password);
-			wsRequest.setRefid(refid);
-			wsRequest.setLocale(locale);
+			wsRequest.setUsername(adapterConfigInfo.getUser());
+			wsRequest.setPassword(adapterConfigInfo.getPassword());
+			wsRequest.setRefid(adapterConfigInfo.getRefid());
+			wsRequest.setLocale(adapterConfigInfo.getLocale());
 			wsRequest.setTempId(temp);
 			wsRequest.setTrace(null);
 
@@ -111,7 +107,7 @@ public class AdapterServiceImpl implements AdapterService {
 
 			Result result = UploadCustomFileResultBuilder.getInstance(request,
 					wsRequest, wsResponse).buildResult();
-			result.setUsername(username);
+			result.setUsername(adapterConfigInfo.getUser());
 
 			if (Result.PROCESSED == result.getProcessed()) {
 				orderService.updateOrderAfterUpload(request, result.getUrl());
@@ -127,11 +123,12 @@ public class AdapterServiceImpl implements AdapterService {
 
 	@Override
 	public Result getOrderByPoNum(AdapterRequest request) {
+        AdapterConfigInfo adapterConfigInfo = getAdapterConfigInfo(request);
 
-		GetOrderByPoNum wsRequest = new GetOrderByPoNum();
-		wsRequest.setUsername(username);
-		wsRequest.setPassword(password);
-		wsRequest.setRefid(refid);
+        GetOrderByPoNum wsRequest = new GetOrderByPoNum();
+		wsRequest.setUsername(adapterConfigInfo.getUser());
+		wsRequest.setPassword(adapterConfigInfo.getPassword());
+		wsRequest.setRefid(adapterConfigInfo.getRefid());
 		StringBuilder sb = new StringBuilder();
 		sb.append(request.getOrderNumber().trim()).append("-")
 				.append(request.getOrderGroup().trim());
@@ -153,7 +150,7 @@ public class AdapterServiceImpl implements AdapterService {
 
 		Result result = GetOrderByPoNumResultBuilder.getInstance(request,
 				wsRequest, wsResponse, b2bOptic).buildResult();
-		result.setUsername(username);
+		result.setUsername(adapterConfigInfo.getUser());
 
 		if (b2bOptic != null) {
 			orderService.updateOrderAfterGetOrder(request, b2bOptic);
@@ -164,11 +161,12 @@ public class AdapterServiceImpl implements AdapterService {
 
 	@Override
 	public Result getOrderByPoNum_2(AdapterRequest request) {
+        AdapterConfigInfo adapterConfigInfo = getAdapterConfigInfo(request);
 
 		GetOrderByPoNum wsRequest = new GetOrderByPoNum();
-		wsRequest.setUsername(username);
-		wsRequest.setPassword(password);
-		wsRequest.setRefid(refid);
+		wsRequest.setUsername(adapterConfigInfo.getUser());
+		wsRequest.setPassword(adapterConfigInfo.getPassword());
+		wsRequest.setRefid(adapterConfigInfo.getRefid());
 		StringBuilder sb = new StringBuilder();
 		sb.append(request.getOrderNumber().trim()).append("-")
 				.append(request.getOrderGroup().trim());
@@ -190,7 +188,7 @@ public class AdapterServiceImpl implements AdapterService {
 
 		Result result = GetOrderByPoNumResultBuilder.getInstance(request,
 				wsRequest, wsResponse, b2bOptic).buildResult();
-		result.setUsername(username);
+		result.setUsername(adapterConfigInfo.getUser());
 
 		logService.logResult(request, result);
 		return result;
@@ -198,10 +196,11 @@ public class AdapterServiceImpl implements AdapterService {
 
 	@Override
 	public Result getOrderAsPDFByPoNum(AdapterRequest request) {
+        AdapterConfigInfo adapterConfigInfo = getAdapterConfigInfo(request);
 		GetOrderAsPDFByPoNum wsRequest = new GetOrderAsPDFByPoNum();
-		wsRequest.setUsername(username);
-		wsRequest.setPassword(password);
-		wsRequest.setRefid(refid);
+		wsRequest.setUsername(adapterConfigInfo.getUser());
+		wsRequest.setPassword(adapterConfigInfo.getPassword());
+		wsRequest.setRefid(adapterConfigInfo.getRefid());
 		StringBuilder sb = new StringBuilder();
 		sb.append(request.getOrderNumber().trim()).append("-")
 				.append(request.getOrderGroup().trim());
@@ -226,7 +225,7 @@ public class AdapterServiceImpl implements AdapterService {
 				wsRequest, wsResponse, pathToFile,
 				wsResponse.getGetOrderAsPDFByPoNumResult().getPdf())
 				.buildResult();
-		result.setUsername(username);
+		result.setUsername(adapterConfigInfo.getUser());
 
 		logService.logResult(request, result);
 
@@ -236,20 +235,21 @@ public class AdapterServiceImpl implements AdapterService {
 	@Override
 	public Result uploadOrderByAction(AdapterRequest request) {
 		try {
+            AdapterConfigInfo adapterConfigInfo = getAdapterConfigInfo(request);
             B2BOptic b2bOptic = b2bBuilder.new Builder()
                     .withZakazka(request.getOrderNumber())
                     .withSkupina(request.getOrderGroup())
                     .withObjednavka(request.getPurchaseOrderNumber())
                     .withBranchCode(request.getBranchCode())
-                    .withOriginator(originator)
-                    .withShipto(shipto)
+                    .withOriginator(adapterConfigInfo.getOriginator())
+                    .withShipto(adapterConfigInfo.getShipto())
                     .build();
 
             UploadOrderByAction wsRequest = new UploadOrderByAction();
-			wsRequest.setUsername(username);
-			wsRequest.setPassword(password);
-			wsRequest.setRefid(refid);
-			wsRequest.setLocale(locale);
+			wsRequest.setUsername(adapterConfigInfo.getUser());
+			wsRequest.setPassword(adapterConfigInfo.getPassword());
+			wsRequest.setRefid(adapterConfigInfo.getRefid());
+			wsRequest.setLocale(adapterConfigInfo.getLocale());
 			wsRequest.setTempId(temp);
 			wsRequest.setTrace(null);
 			wsRequest.setSloid(request.getSloId());
@@ -266,7 +266,7 @@ public class AdapterServiceImpl implements AdapterService {
 
 			Result result = UploadOrderByActionResultBuilder.getInstance(request,
 					wsRequest, wsResponse).buildResult();
-			result.setUsername(username);
+			result.setUsername(adapterConfigInfo.getUser());
 
 			if (Result.PROCESSED == result.getProcessed()) {
 				orderService.updateOrderAfterUploadOrderByAction(request, result);
@@ -283,20 +283,21 @@ public class AdapterServiceImpl implements AdapterService {
 	@Override
 	public Result validateOrderFromPMS(AdapterRequest request) {
 		try {
+            AdapterConfigInfo adapterConfigInfo = getAdapterConfigInfo(request);
             B2BOptic b2bOptic = b2bBuilder.new Builder()
                     .withZakazka(request.getOrderNumber())
                     .withSkupina(request.getOrderGroup())
                     .withObjednavka(request.getPurchaseOrderNumber())
                     .withBranchCode(request.getBranchCode())
-                    .withOriginator(originator)
-                    .withShipto(shipto)
+                    .withOriginator(adapterConfigInfo.getOriginator())
+                    .withShipto(adapterConfigInfo.getShipto())
                     .build();
 
             ValidateOrderFromPMS wsRequest = new ValidateOrderFromPMS();
-			wsRequest.setUsername(username);
-			wsRequest.setPassword(password);
-			wsRequest.setRefid(refid);
-			wsRequest.setLocale(locale);
+			wsRequest.setUsername(adapterConfigInfo.getUser());
+			wsRequest.setPassword(adapterConfigInfo.getPassword());
+			wsRequest.setRefid(adapterConfigInfo.getRefid());
+			wsRequest.setLocale(adapterConfigInfo.getLocale());
 			wsRequest.setSloId(request.getSloId());
 
 //			JAXBContext context = JAXBContext.newInstance(B2BOptic.class);
@@ -310,7 +311,7 @@ public class AdapterServiceImpl implements AdapterService {
 			
 			Result result = ValidateOrderFromPMSResultBuilder.getInstance(request,
 					wsRequest, wsResponse).buildResult();
-			result.setUsername(username);
+			result.setUsername(adapterConfigInfo.getUser());
 
 			logService.logResult(request, result);
 
@@ -322,9 +323,10 @@ public class AdapterServiceImpl implements AdapterService {
 	
 	@Override
 	public Result getSuppliers(AdapterRequest request) {
+        AdapterConfigInfo adapterConfigInfo = getAdapterConfigInfo(request);
 		GetSuppliers wsRequest = new GetSuppliers();
-		wsRequest.setUsername(username);
-		wsRequest.setPassword(password);
+		wsRequest.setUsername(adapterConfigInfo.getUser());
+		wsRequest.setPassword(adapterConfigInfo.getPassword());
 
 		
 		GetSuppliersResponse wsResponse = essilorService
@@ -332,7 +334,7 @@ public class AdapterServiceImpl implements AdapterService {
 		
 		Result result = GetSuppliersResultBuilder.getInstance(request,
 				wsRequest, wsResponse).buildResult();
-		result.setUsername(username);
+		result.setUsername(adapterConfigInfo.getUser());
 
 		logService.logResult(request, result);
 

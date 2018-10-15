@@ -1,5 +1,6 @@
 package essilor.integrator.adapter.dao;
 
+import essilor.integrator.adapter.domain.AdapterConfigInfo;
 import essilor.integrator.adapter.domain.eet.EetConfigInfo;
 import essilor.integrator.adapter.tools.Encryptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class ConfDaoImpl implements ConfDao {
 	private static final String GET_ZIP_SQL = "select psc from c_prevadzky where kod=?";
 
 	private static final String GET_EET_CONFIG_SQL = "select kod,ico,dic,id_provozovny,id_pokl,eet_keystore_path,eet_keystore_pwd,eet_key_alias,dic_poverujiciho from c_prevadzky";
+
+	private static final String GET_ADAPTER_CONFIG_SQL = "select kod,web_adapter_user,web_adapter_pwd,web_adapter_refid,web_adapter_locale,web_adapter_originator,web_adapter_shipto from c_prevadzky";
 
 	private String softwareOriginatorName;
 	
@@ -131,5 +134,29 @@ public class ConfDaoImpl implements ConfDao {
             eetConfig.put(eetConfigInfo.getKod(),eetConfigInfo);
 		}
 		return eetConfig;
+	}
+
+	public Map<String, AdapterConfigInfo> getAdapterConfigInfo() {
+		Map<String, AdapterConfigInfo> adapterConfig = new HashMap<String, AdapterConfigInfo>();
+		List<Map<String, Object>> rows =  jdbcTemplate.queryForList(GET_ADAPTER_CONFIG_SQL);
+		for (Map<String, Object> row : rows) {
+			AdapterConfigInfo adapterConfigInfo = new AdapterConfigInfo();
+			adapterConfigInfo.setKod((String) row.get("kod"));
+			adapterConfigInfo.setUser((String) row.get("web_adapter_user"));
+			adapterConfigInfo.setRefid((String) row.get("web_adapter_refid"));
+			adapterConfigInfo.setLocale((String) row.get("web_adapter_locale"));
+			adapterConfigInfo.setOriginator((String) row.get("web_adapter_originator"));
+			adapterConfigInfo.setShipto((String) row.get("web_adapter_shipto"));
+			try {
+			    String p = (String) row.get("web_adapter_pwd");
+			    if (p != null && !p.isEmpty()) {
+                    adapterConfigInfo.setPassword(encryptor.decrypt(p));
+                }
+			} catch(Exception e) {
+				throw new RuntimeException(e);
+			}
+			adapterConfig.put(adapterConfigInfo.getKod(),adapterConfigInfo);
+		}
+		return adapterConfig;
 	}
 }

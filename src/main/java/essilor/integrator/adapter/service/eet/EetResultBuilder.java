@@ -22,9 +22,6 @@ public class EetResultBuilder  {
     @Autowired
     private Jaxb2Marshaller eetServiceMarshallerFormattedOutput;
 
-    @Value("${adapter.username}")
-    private String username;
-
     public class Builder extends ResultBuilder {
         private Trzba trzba;
         private Odpoved odpoved;

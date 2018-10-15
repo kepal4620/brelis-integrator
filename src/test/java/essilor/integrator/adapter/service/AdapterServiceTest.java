@@ -31,9 +31,9 @@ public class AdapterServiceTest {
 				AdapterService.class);
 
 		AdapterRequest req = AdapterRequest.getEmptyRequest();
-		req.setOrderNumber("11402338");
+		req.setOrderNumber("15505168");
 		req.setOrderGroup("1");
-		req.setPurchaseOrderNumber("3132");
+		req.setPurchaseOrderNumber("12250");
 		req.setMethodName(MethodName.UploadCustomFile);
 		req.setManufacturer(Manufacturer.Essilor);
 		req.setDirection(Direction.SEND);

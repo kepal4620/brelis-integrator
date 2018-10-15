@@ -1,5 +1,6 @@
 package essilor.integrator.adapter.dao;
 
+import essilor.integrator.adapter.domain.AdapterConfigInfo;
 import essilor.integrator.adapter.domain.eet.EetConfigInfo;
 
 import java.util.Map;
@@ -19,4 +20,5 @@ public interface ConfDao {
 	String getEetUri();
 	String getEetKeystoreType();
 	Map<String, EetConfigInfo> getEetConfig();
+	Map<String, AdapterConfigInfo> getAdapterConfigInfo();
 }
