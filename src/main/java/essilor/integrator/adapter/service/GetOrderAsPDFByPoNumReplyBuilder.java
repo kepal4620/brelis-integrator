@@ -14,7 +14,7 @@ public class GetOrderAsPDFByPoNumReplyBuilder extends AdapterReplyBuilder {
 					.append(ServiceCallTimestampHolder.getAsDateTime())
 					.append(FilenameUtils.getName(result.getUrl()));
 		} else {
-			reply.append("ER")
+			reply.append("KO")
 					.append(ServiceCallTimestampHolder.getAsDateTime())
 					.append(result.getErrorText());
 		}

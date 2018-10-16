@@ -10,7 +10,7 @@ public class UploadCustomFileReplyBuilder extends AdapterReplyBuilder {
 					.append(ServiceCallTimestampHolder.getAsDateTime())
 					.append(result.getUrl());
 		} else {
-			reply.append("ER")
+			reply.append("KO")
 					.append(ServiceCallTimestampHolder.getAsDateTime())
 					.append(result.getErrorText());
 		}

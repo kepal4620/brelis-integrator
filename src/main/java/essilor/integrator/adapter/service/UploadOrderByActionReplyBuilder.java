@@ -58,7 +58,7 @@ public class UploadOrderByActionReplyBuilder extends AdapterReplyBuilder {
 				}
 			}
 		} catch (Exception e) {
-			logger.warn("failed to parse error text", e);
+			// logger.warn("failed to parse error text", e);
 			sb.append(result.getErrorText());
 		}
 		return sb.toString();

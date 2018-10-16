@@ -22,7 +22,7 @@ public class GetOrderByPoNum_2ReplyBuilder extends AdapterReplyBuilder {
 					.append(ServiceCallTimestampHolder.getAsDateTime())
 					.append(result.getErrorText());
 		} else {
-			reply.append("ER")
+			reply.append("KO")
 			.append(ServiceCallTimestampHolder.getAsDateTime())
 			.append(result.getErrorText());
 		}
