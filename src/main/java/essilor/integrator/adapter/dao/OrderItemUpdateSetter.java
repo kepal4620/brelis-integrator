@@ -80,7 +80,7 @@ public class OrderItemUpdateSetter implements PreparedStatementSetter {
 		long timestamp = ServiceCallTimestampHolder.getAsLong();
 		ps.setString(
 				57,
-				OrderDaoImpl.dateFormat.get().format(
+				OrderDao.dateFormat.get().format(
 						new Date(timestamp)));
 		ps.setTimestamp(58, new Timestamp(timestamp));
 		ps.setLong(59, item.getId());

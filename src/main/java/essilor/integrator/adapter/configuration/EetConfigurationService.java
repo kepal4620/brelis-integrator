@@ -1,4 +1,4 @@
-package essilor.integrator.adapter.service.eet;
+package essilor.integrator.adapter.configuration;
 
 import essilor.integrator.adapter.dao.ConfDao;
 import essilor.integrator.adapter.domain.eet.EetConfigInfo;
@@ -11,18 +11,18 @@ import java.util.Map;
 public class EetConfigurationService {
 
     @Autowired
-    private ConfDao confDaoImpl;
+    private ConfDao confDao;
 
     public Map<String, EetConfigInfo> getEetConfiguration() {
-        return confDaoImpl.getEetConfig();
+        return confDao.getEetConfig();
     }
 
     public String getEetUri() {
-        return confDaoImpl.getEetUri();
+        return confDao.getEetUri();
     }
 
     public String getEetKeystoreType() {
-        return confDaoImpl.getEetKeystoreType();
+        return confDao.getEetKeystoreType();
     }
 
 }

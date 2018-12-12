@@ -15,8 +15,6 @@
 
 	<tx:annotation-driven order="0" />
 
-	<bean class="essilor.integrator.adapter.EetConfiguration"/>
-	<bean class="essilor.integrator.adapter.AdapterConfiguration"/>
 
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -56,98 +54,13 @@
 		<constructor-arg index="0" value="essilor.integrator.adapter.domain.b2boptic" />
 	</bean>
 
-	<bean id="uploadFileWSTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
-		<constructor-arg ref="messageFactory" />
-		<property name="marshaller" ref="uploadFileServiceMarshaller"></property>
-		<property name="unmarshaller" ref="uploadFileServiceMarshaller"></property>
-		<property name="messageSender">
-			<bean
-				class="org.springframework.ws.transport.http.HttpComponentsMessageSender">
- 				<!--<property name="httpClient" ref="httpClient" />-->
-			</bean>
-		</property>
-		<property name="defaultUri" value="${adapter.uri.uploadfile}" />
-	</bean>
+    <context:component-scan base-package="essilor.integrator.adapter.dao"/>
+    <context:component-scan base-package="essilor.integrator.adapter.configuration"/>
+    <context:component-scan base-package="essilor.integrator.adapter.tools"/>
 
-	<bean id="getOrderWSTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
-		<constructor-arg ref="messageFactory" />
-		<property name="marshaller" ref="getOrderServiceMarshaller"></property>
-		<property name="unmarshaller" ref="getOrderServiceMarshaller"></property>
-		<property name="messageSender">
-			<bean
-				class="org.springframework.ws.transport.http.HttpComponentsMessageSender">
- 				<!--<property name="httpClient" ref="httpClient" />-->
-			</bean>
-		</property>
-		<property name="defaultUri" value="${adapter.uri.getorder}" />
-	</bean>
+    <context:component-scan base-package="essilor.integrator.adapter.service"/>
+    <context:component-scan base-package="essilor.integrator.adapter"/>
+    <context:component-scan base-package="essilor.integrator.adapter.dao.eet"/>
+    <context:component-scan base-package="essilor.integrator.adapter.service.eet"/>
 
-	<bean id="owValidationWSTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
-		<constructor-arg ref="messageFactory" />
-		<property name="marshaller" ref="owValidationServiceMarshaller"></property>
-		<property name="unmarshaller" ref="owValidationServiceMarshaller"></property>
-		<property name="messageSender">
-			<bean
-				class="org.springframework.ws.transport.http.HttpComponentsMessageSender">
- 				<!--<property name="httpClient" ref="httpClient" />-->
-			</bean>
-		</property>
-		<property name="defaultUri" value="${adapter.uri.owvalidation}" />
-	</bean>
-
-	<bean id="supplierWSTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
-		<constructor-arg ref="messageFactory" />
-		<property name="marshaller" ref="supplierServiceMarshaller"></property>
-		<property name="unmarshaller" ref="supplierServiceMarshaller"></property>
-		<property name="messageSender">
-			<bean
-				class="org.springframework.ws.transport.http.HttpComponentsMessageSender">
- 				<!--<property name="httpClient" ref="httpClient" />-->
-			</bean>
-		</property>
-		<property name="defaultUri" value="${adapter.uri.supplier}" />
-	</bean>
-
-	<!--<bean id="httpClient"-->
-		<!--class="essilor.integrator.adapter.tools.httpclient.MyHttpClient">-->
-		<!--<constructor-arg name="proxyHost" value="localhost" />-->
-		<!--<constructor-arg name="proxyPort" value="0" />-->
-		<!--<constructor-arg name="proxyUser" value="" />-->
-		<!--<constructor-arg name="proxyPassword" value="" />-->
-	<!--</bean>-->
-
-	<bean id="orderDao" class="essilor.integrator.adapter.dao.OrderDaoImpl">
-		<constructor-arg ref="dataSource" />
-	</bean>
-
-	<bean id="confDao" class="essilor.integrator.adapter.dao.ConfDaoImpl">
-		<constructor-arg ref="dataSource" />
-		<property name="softwareOriginatorName" value="${adapter.software.originator.name}" />
-		<property name="softwareSenderName" value="${adapter.software.sender.name}" />
-		<property name="softwareOriginatorVersion" value="${adapter.software.originator.version}" />
-		<property name="softwareSenderVersion" value="${adapter.software.sender.version}" />
-	</bean>
-
-	<bean id="customerDao" class="essilor.integrator.adapter.dao.CustomerDaoImpl">
-		<constructor-arg ref="dataSource" />
-	</bean>
-
-	<bean id="b2bOpticBuilder" class="essilor.integrator.adapter.service.B2BOpticBuilder"/>
-
-	<bean id="orderBuilder" class="essilor.integrator.adapter.service.OrderBuilder" />
-
-	<bean id="adapterService" class="essilor.integrator.adapter.service.AdapterServiceImpl">
-		<property name="temp" value="${adapter.temp}" />
-	</bean>
-
-	<bean id="essilorService" class="essilor.integrator.adapter.service.EssilorServiceImpl" />
-	<bean id="logService" class="essilor.integrator.adapter.service.LogServiceImpl" />
-	<bean id="orderService" class="essilor.integrator.adapter.service.OrderServiceImpl" />
-
-	<bean id="adapter" class="essilor.integrator.adapter.Adapter">
-		<property name="port" value="${adapter.port}" />
-		<property name="service" ref="adapterService" />
-	</bean>
-
-	<import resource="spring/eet-config.xml"/>
 </beans>

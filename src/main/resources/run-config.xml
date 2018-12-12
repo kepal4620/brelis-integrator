@@ -19,7 +19,6 @@
 		<property name="ignoreResourceNotFound" value="true"/>
 	</bean>
 
-
 	<import resource="data-source.xml" />
 	<import resource="classpath:application-config.xml" />
 

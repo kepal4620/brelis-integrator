@@ -14,7 +14,7 @@ import org.jdom2.xpath.XPathFactory;
 
 public class UploadOrderByActionReplyBuilder extends AdapterReplyBuilder {
 
-	private static final Logger logger = Logger.getLogger(AdapterServiceImpl.class);
+	private static final Logger logger = Logger.getLogger(AdapterService.class);
 
 	public String build() {
 		try {

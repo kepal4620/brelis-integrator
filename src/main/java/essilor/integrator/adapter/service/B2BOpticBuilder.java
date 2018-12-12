@@ -14,6 +14,7 @@ import essilor.integrator.adapter.domain.optosys.Customer;
 import essilor.integrator.adapter.domain.optosys.Order;
 import essilor.integrator.adapter.domain.optosys.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -22,6 +23,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.GregorianCalendar;
 
+@Component
 public class B2BOpticBuilder {
 
     private static ThreadLocal<DecimalFormat> decimalFormat = new ThreadLocal<DecimalFormat>() {

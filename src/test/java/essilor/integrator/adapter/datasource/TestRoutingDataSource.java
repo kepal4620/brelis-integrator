@@ -1,5 +1,6 @@
 package essilor.integrator.adapter.datasource;
 
+import essilor.integrator.adapter.service.LogService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -14,7 +15,6 @@ import essilor.integrator.adapter.Result;
 import essilor.integrator.adapter.domain.uploadfile.CustomFileInfo;
 import essilor.integrator.adapter.domain.uploadfile.UploadCustomFile;
 import essilor.integrator.adapter.domain.uploadfile.UploadCustomFileResponse;
-import essilor.integrator.adapter.service.LogService;
 import essilor.integrator.adapter.service.UploadCustomFileResultBuilder;
 
 public class TestRoutingDataSource {

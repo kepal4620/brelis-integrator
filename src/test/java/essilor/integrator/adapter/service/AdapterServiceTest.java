@@ -12,7 +12,6 @@ import essilor.integrator.adapter.Result;
 import essilor.integrator.adapter.AdapterRequest.Direction;
 import essilor.integrator.adapter.AdapterRequest.Manufacturer;
 import essilor.integrator.adapter.AdapterRequest.MethodName;
-import essilor.integrator.adapter.service.AdapterService;
 
 public class AdapterServiceTest {
 
@@ -62,7 +61,7 @@ public class AdapterServiceTest {
 		Result result = service.uploadCustomFile(req);
 	}
 
-	
+
 	@Test
 	public void testGetOrderByPoNum() throws JAXBException {
 		AdapterService service = context.getBean("adapterService",
@@ -177,7 +176,6 @@ public class AdapterServiceTest {
 		req.setBranchCode("ZL");
 
 		Result result = service.validateOrderFromPMS(req);
-		
+
 	}
-	
 }

@@ -1,6 +1,5 @@
 package essilor.integrator.adapter.tools;
 
-import essilor.integrator.adapter.service.AdapterService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

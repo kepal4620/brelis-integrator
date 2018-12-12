@@ -13,10 +13,10 @@ import java.util.Map;
 @ContextConfiguration(locations = {"classpath:/system-test-config.xml"})
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ConfDaoImplTest {
+public class ConfDaoTest {
 
     @Autowired
-    private ConfDaoImpl confDao;
+    private ConfDao confDao;
 
     @Test
     public void testGetEetConfigInfo() {

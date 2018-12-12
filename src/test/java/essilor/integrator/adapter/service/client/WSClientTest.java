@@ -1,24 +1,11 @@
 package essilor.integrator.adapter.service.client;
 
 import essilor.integrator.adapter.service.EssilorService;
-import org.apache.http.*;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContextBuilder;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.protocol.HttpContext;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class WSClientTest {
@@ -46,7 +33,7 @@ public class WSClientTest {
 			scanner.close();
 		}
 		System.out.println(sb.toString());
-		String resp = service.uploadCustomFile(sb.toString());
+		String resp = service.uploadCustomFile(sb.toString(), "ZL");
 		System.out.println(resp);
 	}
 
@@ -67,7 +54,7 @@ public class WSClientTest {
 			scanner.close();
 		}
 		System.out.println(sb.toString());
-		String resp = service.getOrderByPoNum(sb.toString());
+		String resp = service.getOrderByPoNum(sb.toString(), "ZL");
 		System.out.println(resp);
 	}
 	
@@ -87,7 +74,7 @@ public class WSClientTest {
 			scanner.close();
 		}
 		System.out.println(sb.toString());
-		String resp = service.getOrderAsPDFByPoNum(sb.toString());
+		String resp = service.getOrderAsPDFByPoNum(sb.toString(), "ZL");
 		System.out.println(resp);
 	}
 	
@@ -107,7 +94,7 @@ public class WSClientTest {
 			scanner.close();
 		}
 		System.out.println(sb.toString());
-		String resp = service.uploadOrderByAction(sb.toString());
+		String resp = service.uploadOrderByAction(sb.toString(), "ZL");
 		System.out.println(resp);
 	}
 
@@ -127,7 +114,7 @@ public class WSClientTest {
 			scanner.close();
 		}
 		System.out.println(sb.toString());
-		String resp = service.uploadOrderByAction(sb.toString());
+		String resp = service.uploadOrderByAction(sb.toString(), "ZL");
 		System.out.println(resp);
 	}
 
@@ -147,7 +134,7 @@ public class WSClientTest {
 			scanner.close();
 		}
 		System.out.println(sb.toString());
-		String resp = service.validateOrderFromPMS(sb.toString());
+		String resp = service.validateOrderFromPMS(sb.toString(), "ZL");
 		System.out.println(resp);
 	}
 
@@ -167,8 +154,7 @@ public class WSClientTest {
 			scanner.close();
 		}
 		System.out.println(sb.toString());
-		String resp = service.getSuppliers(sb.toString());
+		String resp = service.getSuppliers(sb.toString(), "ZL");
 		System.out.println(resp);
 	}
-
 }

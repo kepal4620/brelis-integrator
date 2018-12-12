@@ -2,21 +2,11 @@ package essilor.integrator.adapter.test;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
 import org.junit.Test;
-
-import essilor.integrator.adapter.AdapterRequest;
-import essilor.integrator.adapter.Result;
-import essilor.integrator.adapter.AdapterRequest.ActionType;
-import essilor.integrator.adapter.AdapterRequest.Direction;
-import essilor.integrator.adapter.AdapterRequest.Manufacturer;
-import essilor.integrator.adapter.AdapterRequest.MethodName;
-import essilor.integrator.adapter.service.AdapterService;
 
 public class TestClient {
 

@@ -1,5 +1,16 @@
 package essilor.integrator.adapter.service;
 
+import essilor.integrator.adapter.AdapterRequest.Manufacturer;
+import essilor.integrator.adapter.dao.OrderDao;
+import essilor.integrator.adapter.domain.b2boptic.B2BOptic;
+import essilor.integrator.adapter.domain.b2boptic.Coating;
+import essilor.integrator.adapter.domain.b2boptic.Pair.Lens;
+import essilor.integrator.adapter.domain.b2boptic.Sides;
+import essilor.integrator.adapter.domain.optosys.Order;
+import essilor.integrator.adapter.domain.optosys.OrderItem;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -7,17 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
-import essilor.integrator.adapter.AdapterRequest.Manufacturer;
-import essilor.integrator.adapter.dao.OrderDao;
-import essilor.integrator.adapter.domain.b2boptic.B2BOptic;
-import essilor.integrator.adapter.domain.b2boptic.Coating;
-import essilor.integrator.adapter.domain.b2boptic.Sides;
-import essilor.integrator.adapter.domain.b2boptic.Pair.Lens;
-import essilor.integrator.adapter.domain.optosys.Order;
-import essilor.integrator.adapter.domain.optosys.OrderItem;
-
+@Component
 public class OrderBuilder {
 
 	private static final String FORMAT_1 = "format_1";
@@ -247,5 +249,4 @@ public class OrderBuilder {
 			orderItem.setUprava4_perc(String.valueOf(coatingPerc));
 		}
 	}
-
 }

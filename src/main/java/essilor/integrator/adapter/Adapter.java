@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import essilor.integrator.adapter.service.AdapterService;
 import essilor.integrator.adapter.service.PingService;
 import essilor.integrator.adapter.service.eet.EetService;
 import org.apache.log4j.BasicConfigurator;
@@ -17,26 +18,28 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import essilor.integrator.adapter.service.AdapterReplyBuilder;
-import essilor.integrator.adapter.service.AdapterService;
 import essilor.integrator.adapter.service.ServiceCallTimestampHolder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Adapter implements ApplicationContextAware {
 
 	private static final Logger logger = Logger.getLogger(Adapter.class);
 
 	private final ExecutorService exec = Executors.newFixedThreadPool(10);
-	private int port;
 
 	private AtomicBoolean shallStop = new AtomicBoolean(false);
 	private ApplicationContext ctx;
 
-	private AdapterService service;
+	@Autowired
+	private AdapterService adapterService;
 
 	@Autowired
 	private EetService eetService;
@@ -44,34 +47,14 @@ public class Adapter implements ApplicationContextAware {
 	@Autowired
 	private PingService pingService;
 
-	public int getPort() {
-		return port;
-	}
+	@Value("${adapter.port}")
+	private String port;
 
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-	public AdapterService getService() {
-		return service;
-	}
-
-	public void setService(AdapterService service) {
-		this.service = service;
-	}
-
-	public EetService getEetService() {
-		return eetService;
-	}
-
-	public void setEetService(EetService eetService) {
-		this.eetService = eetService;
-	}
 
 
 	public void start() throws IOException {
 		logger.info("adapter started");
-		ServerSocket socket = new ServerSocket(port);
+		ServerSocket socket = new ServerSocket(Integer.parseInt(port));
 		while (!exec.isShutdown()) {
 			try {
 				System.out.print("halo 1.");
@@ -145,25 +128,25 @@ public class Adapter implements ApplicationContextAware {
 			Result result = null;
 			switch (request.getMethodName()) {
 			case UploadCustomFile:
-				result = service.uploadCustomFile(request);
+				result = adapterService.uploadCustomFile(request);
 				break;
 			case UploadOrderByAction:
-				result = service.uploadOrderByAction(request);
+				result = adapterService.uploadOrderByAction(request);
 				break;
 			case GetOrderByPoNum:
-				result = service.getOrderByPoNum(request);
+				result = adapterService.getOrderByPoNum(request);
 				break;
 			case GetOrderByPoNum_2:
-				result = service.getOrderByPoNum_2(request);
+				result = adapterService.getOrderByPoNum_2(request);
 				break;
 			case GetOrderAsPDFByPoNum:
-				result = service.getOrderAsPDFByPoNum(request);
+				result = adapterService.getOrderAsPDFByPoNum(request);
 				break;
 			case ValidateOrderFromPMS:
-				result = service.validateOrderFromPMS(request);
+				result = adapterService.validateOrderFromPMS(request);
 				break;
 			case GetSuppliers:
-				result = service.getSuppliers(request);
+				result = adapterService.getSuppliers(request);
 				break;
 			case OdeslaniTrzby:
 				result = eetService.processRequest(request);
